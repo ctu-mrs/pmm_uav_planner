@@ -126,7 +126,7 @@ int plan_pmm_trajectory(std::string planner_config_file, std::string waypoints_c
     mp_tr.sample_and_export_trajectory(sampling_step, "scripts/trajectory_data/" + sampled_trajectory_file);
   }
 
-  std::cout << "Visualize results by running scripts/plot_results.py!"<< std::endl;
+  std::cout << "Visualize results by running scripts/plot_trajectory.py or scripts/plot_profiles.py!"<< std::endl;
   std::cout << "#----------------------------------------- END ------------------------------------------#" << std::endl << std::endl;
   return 0;
 
