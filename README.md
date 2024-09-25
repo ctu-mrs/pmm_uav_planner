@@ -1,11 +1,11 @@
 # Real-time Planning of Minimum-time Trajectories for Agile UAV Flight
-This repository contains the code for **Real-time Planning of Minimum-time Trajectories for Agile UAV Flight** presented in our [paper](TODO add link).
-[![plot](./figs/video_title.png)](https://www.youtube.com/watch?v=wTucpUq1Z80)
+This repository contains the code for **Real-time Planning of Minimum-time Trajectories for Agile UAV Flight** presented in our [paper](https://arxiv.org/pdf/2409.16074).
+[![plot](./figs/video_title.png)](https://youtu.be/wArd536Amro)
 
 ## Citing
 If you use this code in an academic context, please cite the following publication:
 
-K. Teissing, M. Novosad, R. Penicka and M. Saska, "Real-time Planning of Minimum-time Trajectories for Agile UAV Flight," in IEEE Robotics and Automation Letters, 2024. ([PDF](TODO add link))
+K. Teissing, M. Novosad, R. Penicka and M. Saska, "Real-time Planning of Minimum-time Trajectories for Agile UAV Flight," in IEEE Robotics and Automation Letters, 2024. ([PDF](https://arxiv.org/pdf/2409.16074))
 
 ```
 @ARTICLE{teissing2024pmm,
