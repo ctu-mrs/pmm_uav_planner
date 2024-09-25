@@ -1,0 +1,35 @@
+# uav parameters
+uav:
+  maximum_acceleration_norm: 34.32      # [m/s^2] a = F / m
+  maximum_velocity: 90.0                # [m/s], important to set accordingly when considering drag
+  gravitational_acceleration: 9.8066    # [m/s^s]
+  drag_coefficients: [0.28, 0.35, 0.7]  # set thrust_decomposition->drag to true if it is to be utilized
+
+# limited thrust decomposition (LTD) parameters
+thrust_decomposition:
+  drag: false        # true = drag modeling is used, false = drag is considered to be 0
+  precision: 0.01    # end thrust decomposition if (maximum thrust - used thrust) < precision
+  max_iter: 10       # end thrust decomposition if number of iterations > max iter
+
+# gradient descent (GD) based velocity optimization parameters
+velocity_optimization:
+  first_run:                      # first optimization run with no LTD
+    alpha: 10.0                   # GD step size
+    alpha_reduction_factor: 0.2   # GD step size reduction factor
+    alpha_min_threshold: 0.001    # threshold for GD step size, when alpha is smaller than the threshold, optimization is terminated for the given axis
+    max_iter: 30                  # maximum number of iterations
+  second_run:                     # second optimization run with LTD
+    alpha: 35.0                   # GD step size
+    alpha_reduction_factor: 0.1   # GD step size reduction factor
+    alpha_min_threshold: 0.01     # threshold for GD step size
+    max_iter: 10                  # maximum number of iterations
+  dT_precision: 0.001             # [s] optimization termination condition, when the reduction of the total trajectory duration after an velocity optimization update falls below this threshold, the optimization is terminated 
+
+# debug prints
+debug: false
+
+# what to save
+export:
+  sampled_trajectory: true
+  sampling_step: 0.001
+  sampled_trajectory_file: "sampled_trajectory.csv"

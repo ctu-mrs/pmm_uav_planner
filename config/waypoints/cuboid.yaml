@@ -1,0 +1,9 @@
+# Config with testing paths for PMM trajectory generation
+
+start:
+  position: [0,0,0]
+  velocity: [0 , 0 , 0]
+end:
+  position: [5,5,2.5]
+  velocity: [0 , 0 , 0]
+waypoints: [[0,10,0],[0,10,5],[10,0,5], [0,0,0]]
