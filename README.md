@@ -1,5 +1,5 @@
 # Real-time Planning of Minimum-time Trajectories for Agile UAV Flight
-This repository contains the code for **Real-time Planning of Minimum-time Trajectories for Agile UAV Flight** presented in our [paper](https://arxiv.org/pdf/2409.16074).
+This repository contains the code for **Real-time Planning of Minimum-time Trajectories for Agile UAV Flight** presented in our [publication](https://arxiv.org/pdf/2409.16074).
 [![plot](./figs/video_title.png)](https://youtu.be/wArd536Amro)
 
 ## Citing
