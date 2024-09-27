@@ -11,7 +11,7 @@
 #include <cmath>
 #include "common.hpp"
 
-#define PRECISION_PMM_VALUES (1.0e-6)
+#define PRECISION_PMM_VALUES (1.0e-4)
 #define PRECISION_DTDV_DEF (1e-8)
 #define PRECISION_TRANS3D (1E-4)
 #define MIN_ACC_REQ (0.01)
