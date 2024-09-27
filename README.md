@@ -78,7 +78,12 @@ pip install numpy matplotlib
 ```
 
 We have prepared two scripts for visualization of resulting trajectory. Note that parameter `export::sampled_trajectory` has to be set to `true` in `planner_config.yaml`, for visualization to work.
-The trajectory will then be saved in `trajectory_data/`.
+The sampled trajectory will then be saved in `trajectory_data/`, as a csv file (without header) in format
+
+```
+t, p_x, p_y, p_z, v_x, v_y, v_z, a_x, a_y, a_z
+```
+where t [s] contains timestamps, (p_x, p_y, p_z) [m] is the position vector, (v_x, v_y, v_z) [m/s] is the velocity vector and (a_x, a_y, a_z) [m/s^2] is the acceleration vector.
 
 To visualize 3D view of the trajectory run:
 ```
