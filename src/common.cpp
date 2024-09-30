@@ -1,6 +1,6 @@
 /**
  * @file common.cpp
- * @author Krystof Teissing (k.teissing@gmail.com)
+ * @author Krystof Teissing (teisskry@gmail.com)
  * @version 0.1
  * @date 2023-05-25
  * 

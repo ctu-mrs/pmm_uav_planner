@@ -24,11 +24,11 @@ def plot_3d_positions_graph(pmm_samples):
     velocities_plot = ax3d.scatter(pmm_samples[:, 1], pmm_samples[:, 2], pmm_samples[:, 3], c=velocity_norms, cmap='jet', s=0.35, zorder=-1)
 
     ax3d.axis('equal')
-    ax3d.set_xlabel('x in m', labelpad=10)
-    ax3d.set_ylabel('y in m', labelpad=10)
-    ax3d.set_zlabel('z in m', labelpad=10)
+    ax3d.set_xlabel('x [m]', labelpad=10)
+    ax3d.set_ylabel('y [m]', labelpad=10)
+    ax3d.set_zlabel('z [m]', labelpad=10)
     ax3d.grid(False)
-    fig2.colorbar(velocities_plot, label="velocity m/s", pad=0.15,
+    fig2.colorbar(velocities_plot, label="velocity [m/s]", pad=0.15,
                   ticks=[min(velocity_norms) + (max(velocity_norms) - min(velocity_norms)) * i / 10 for i in range(0, 11, 2)], shrink=0.7)
     fig2.subplots_adjust(left=0.05, right=0.95, bottom=0.05, top=0.95, wspace=0.05, hspace=0.2)
 
