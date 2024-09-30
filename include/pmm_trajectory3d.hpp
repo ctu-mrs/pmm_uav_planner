@@ -1,6 +1,6 @@
 /**
  * @file pmm_trajectory3d.hpp
- * @author Matej Novosad (novosma2@fel.cvut.cz), Robert Penicka (penicrob@fel.cvut.cz), Krystof Teissing (k.teissing@gmail.com)
+ * @author Matej Novosad (novosma2@fel.cvut.cz), Robert Penicka (penicrob@fel.cvut.cz), Krystof Teissing (teisskry@gmail.com)
  * @version 0.1
  * @date 2024-09-20
  * 

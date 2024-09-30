@@ -1,6 +1,6 @@
 /**
  * @file main.cpp
- * @author Krystof Teissing (k.teissing@gmail.com), Matej Novosad (novosma2@fel.cvut.cz)
+ * @author Krystof Teissing (teisskry@gmail.com), Matej Novosad (novosma2@fel.cvut.cz)
  * @version 0.1
  * @date 2024-09-20
  * 
