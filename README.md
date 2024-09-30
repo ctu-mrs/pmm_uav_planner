@@ -16,7 +16,7 @@ K. Teissing, M. Novosad, R. Penicka and M. Saska, "Real-time Planning of Minimum
   volume={},
   number={},
   pages={},
-  doi={}
+  doi={10.1109/LRA.2024.3471388}
 }
 ```
 
