@@ -139,8 +139,8 @@ int main(int argc, char** argv) {
     return -1;
   }
 
-  std::string planner_config_file = argv[1];
-  std::string waypoints_config_file = argv[2];
+  std::string planner_config_file = std::string(ROOT_DIR) + argv[1];
+  std::string waypoints_config_file = std::string(ROOT_DIR) + argv[2];
   
   plan_pmm_trajectory(planner_config_file, waypoints_config_file);
 

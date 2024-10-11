@@ -4,3 +4,6 @@ main
 obj
 scripts/trajectory_data
 __pycache__
+**/build
+**/cmake-build-debug
+**/.idea
