@@ -1,5 +1,5 @@
 # Real-time Planning of Minimum-time Trajectories for Agile UAV Flight
-This repository contains the code for **Real-time Planning of Minimum-time Trajectories for Agile UAV Flight** presented in our [paper](https://arxiv.org/pdf/2409.16074).
+This repository contains the code for **Real-time Planning of Minimum-time Trajectories for Agile UAV Flight** presented in our [paper](https://ieeexplore.ieee.org/document/10700666).
 [![plot](./figs/video_title.png)](https://youtu.be/wArd536Amro)
 
 ## Citing
@@ -13,9 +13,9 @@ K. Teissing, M. Novosad, R. Penicka and M. Saska, "Real-time Planning of Minimum
   journal={IEEE Robotics and Automation Letters}, 
   title={Real-time Planning of Minimum-time Trajectories for Agile UAV Flight}, 
   year={2024},
-  volume={},
-  number={},
-  pages={},
+  volume={9},
+  number={11},
+  pages={10351-10358},
   doi={10.1109/LRA.2024.3471388}
 }
 ```
@@ -29,33 +29,24 @@ This is a research code, expect that it changes often and any fitness for a part
 The code has been developed and tested on Ubuntu 20.04.
 
 ### Downloading the code
-Clone the repository
+#### Clone the repository
 
 ```
 git clone git@github.com:ctu-mrs/pmm_uav_planner.git
 cd pmm_uav_planner/
 ```
 
-Compile the code
+#### Compile the code
 
 ```
 make
 ```
 
-### Use CMake
-Alternatively, you can use CMake to compile the code.
-
-Clone the repository
-
-```
-git clone git@github.com:ctu-mrs/pmm_uav_planner.git
-cd pmm_uav_planner/
-```
-
-Compile the code
+#### Alternatively, you can use CMake to compile the code.
 
 ```
 mkdir build && cd build
+cmake ..
 make
 ```
 
