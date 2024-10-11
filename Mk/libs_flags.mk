@@ -5,7 +5,7 @@ ARCH=.$(PLATFORM)
 
 CXX:=ccache $(CXX)
 
-CXXFLAGS+=-std=c++17
+CXXFLAGS+=-std=c++17 -DROOT_DIR=\"$(shell pwd ..)/\"
 
 CPPFLAGS+=$(LOCAL_CFLAGS)
 LDFLAGS+=$(LOCAL_LDFLAGS)
