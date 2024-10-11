@@ -42,6 +42,23 @@ Compile the code
 make
 ```
 
+### Use CMake
+Alternatively, you can use CMake to compile the code.
+
+Clone the repository
+
+```
+git clone git@github.com:ctu-mrs/pmm_uav_planner.git
+cd pmm_uav_planner/
+```
+
+Compile the code
+
+```
+mkdir build && cd build
+make
+```
+
 ## Usage Demonstration
 
 <!-- `main.cpp` contains a demonstration on how to use our planner. 
