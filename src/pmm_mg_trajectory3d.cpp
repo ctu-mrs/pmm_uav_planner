@@ -487,8 +487,8 @@ namespace pmm {
                 Scalar seg2_time_old = this->segment_duration(seg_idx, 0);
 
                 for (int a=0;a<3;a++) {
-                    if (v_new[3*seg_idx](a) > _v_max(a)) {
-                        v_new[3*seg_idx](a) = _v_max(a);
+                    if (fabs(v_new[3*seg_idx](a)) > _v_max(a)) {
+                        v_new[3*seg_idx](a) = std::copysign( _v_max(a), v_new[3*seg_idx](a) );
                     }
                 }
                 // if (v_new[3*seg_idx].norm() > _v_max.norm()) {
@@ -1901,7 +1901,7 @@ namespace pmm {
                 if (std::isnan(v_new(i))) {
                     v_new(i) = 0;
                 } else if (fabs(v_new(i)) > max_per_axis_vel) {
-                    v_new(i) = max_per_axis_vel;
+                    v_new(i) = std::copysign( max_per_axis_vel, v_new(i) );
                 } 
             }
             

@@ -48,11 +48,15 @@ PointMassTrajectory3D::PointMassTrajectory3D(const QuadState &from, const QuadSt
   Vector<3> max_per_axis_vel_vec = Vector<3>::Constant(max_vel_norm / sqrt(3));
 
   Vector<3> endpoint_velocity = from.v.cwiseAbs().cwiseMax(to.v.cwiseAbs());
+  // if (abs(endpoint_velocity.maxCoeff()) > max_vel_norm / sqrt(3)) {
+  //   std::cout << "WARNING: start or end velocity in one of the axis is greater than maximum velocity / sqrt(3)!" << std::endl;
+  // }
   Vector<3> max_velocity = endpoint_velocity.cwiseAbs().cwiseMax(max_per_axis_vel_vec.cwiseAbs());
 
-  PointMassTrajectory3D pmm3d(from, to, max_per_axis_acc_vec, min_per_axis_acc_vec, max_per_axis_vel_vec, true, true);
+  PointMassTrajectory3D pmm3d(from, to, max_per_axis_acc_vec, min_per_axis_acc_vec, max_velocity, true, true);
 
   max_velocity = pmm3d.max_velocity().normalized() * max_vel_norm;
+  // max_velocity = endpoint_velocity.cwiseAbs().cwiseMax(max_velocity.cwiseAbs());
   
   Vector<3> start_acc = pmm3d.start_acc();
   Vector<3> end_acc = pmm3d.end_acc();
@@ -91,7 +95,14 @@ PointMassTrajectory3D::PointMassTrajectory3D(const QuadState &from, const QuadSt
 
     pmm3d = PointMassTrajectory3D(from, to, max_acc_new1, max_acc_new2, max_velocity, true, true);
 
+    if (!pmm3d.exists()) {
+      iter--;
+      max_velocity = endpoint_velocity.cwiseAbs().cwiseMax(max_velocity.cwiseAbs());
+      continue;
+    }
+
     max_velocity = pmm3d.max_velocity().normalized() * max_vel_norm;
+    max_velocity = endpoint_velocity.cwiseAbs().cwiseMax(max_velocity.cwiseAbs());
 
     if (debug){
       std::cout << "T new: " << pmm3d.time() << std::endl;
