@@ -9,7 +9,7 @@ uav:
 thrust_decomposition:
   drag: false        # true = drag modeling is used, false = drag is considered to be 0
   precision: 0.01    # end thrust decomposition if (maximum thrust - used thrust) < precision
-  max_iter: 10       # end thrust decomposition if number of iterations > max iter
+  max_iter: 20       # end thrust decomposition if number of iterations > max iter
 
 # gradient descent (GD) based velocity optimization parameters
 velocity_optimization:

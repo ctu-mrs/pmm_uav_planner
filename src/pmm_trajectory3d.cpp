@@ -96,7 +96,6 @@ PointMassTrajectory3D::PointMassTrajectory3D(const QuadState &from, const QuadSt
     pmm3d = PointMassTrajectory3D(from, to, max_acc_new1, max_acc_new2, max_velocity, true, true);
 
     if (!pmm3d.exists()) {
-      iter--;
       max_velocity = endpoint_velocity.cwiseAbs().cwiseMax(max_velocity.cwiseAbs());
       continue;
     }
