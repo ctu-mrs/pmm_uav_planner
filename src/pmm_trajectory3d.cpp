@@ -66,6 +66,19 @@ PointMassTrajectory3D::PointMassTrajectory3D(const QuadState &from, const QuadSt
   Vector<3> biggest_acc = start_thrust > end_thrust ? start_acc : end_acc;
   Scalar largest_thrust = std::max(start_thrust, end_thrust);
 
+  Scalar duration = pmm3d.time();
+
+  if (largest_thrust > max_acc_norm) {
+    duration = MAX_SCALAR;
+    largest_thrust = 0;
+  } else {
+    x_ = pmm3d.x_;
+    y_ = pmm3d.y_;
+    z_ = pmm3d.z_;
+
+    min_axis_trajectory_duration_ = pmm3d.min_axis_trajectory_duration_;
+  }
+
   int iter = 0;
   while (fabs(largest_thrust - max_acc_norm) > precision_acc_limit and
          iter < max_iter) {
@@ -86,6 +99,15 @@ PointMassTrajectory3D::PointMassTrajectory3D(const QuadState &from, const QuadSt
     Vector<3> max_acc_new1 = thrust_acc_new_k1 + GVEC;
     Vector<3> max_acc_new2 = -thrust_acc_new_k1 + GVEC;
 
+    // for (int a=0;a<3;a++) {
+    //   if (fabs(max_acc_new1[a]) < MIN_ACC_REQ) {
+    //     max_acc_new1[a] = std::copysign(MIN_ACC_REQ, max_acc_new1[a]);
+    //   }
+    //   if (fabs(max_acc_new2[a]) < MIN_ACC_REQ) {
+    //     max_acc_new2[a] = std::copysign(MIN_ACC_REQ, max_acc_new2[a]);
+    //   }
+    // }
+
     if (debug) {
       std::cout << std::endl << "Iter: " << iter << std::endl;
       std::cout << "Thrust: " << largest_thrust << std::endl;
@@ -97,6 +119,7 @@ PointMassTrajectory3D::PointMassTrajectory3D(const QuadState &from, const QuadSt
 
     if (!pmm3d.exists()) {
       max_velocity = endpoint_velocity.cwiseAbs().cwiseMax(max_velocity.cwiseAbs());
+      // redistribute(biggest_acc);
       continue;
     }
 
@@ -128,6 +151,26 @@ PointMassTrajectory3D::PointMassTrajectory3D(const QuadState &from, const QuadSt
       biggest_acc = end_acc;
       largest_thrust = end_thrust;
     }
+
+    // if (pmm3d.x_.trajectory_type_ == MIN_TRAJ){
+    //   biggest_acc[0] += std::copysign(max_acc_norm*0.01, biggest_acc[0]);
+    // }
+    // else if (pmm3d.y_.trajectory_type_ == MIN_TRAJ){
+    //   biggest_acc[1] += std::copysign(max_acc_norm*0.01, biggest_acc[1]);
+    // }
+    // else if (pmm3d.z_.trajectory_type_ == MIN_TRAJ){
+    //   biggest_acc[2] += std::copysign(max_acc_norm*0.01, biggest_acc[2]);
+    // }
+
+    if (pmm3d.time() < duration && largest_thrust <= max_acc_norm + PRECISION_PMM_VALUES && pmm3d.exists()) {
+      x_ = pmm3d.x_;
+      y_ = pmm3d.y_;
+      z_ = pmm3d.z_;
+
+      min_axis_trajectory_duration_ = pmm3d.min_axis_trajectory_duration_;
+
+      duration = pmm3d.time();
+    }
   }
 
   if (debug){
@@ -135,11 +178,11 @@ PointMassTrajectory3D::PointMassTrajectory3D(const QuadState &from, const QuadSt
     std::cout << "Thrust: " << largest_thrust << std::endl;
   }
 
-  x_ = pmm3d.x_;
-  y_ = pmm3d.y_;
-  z_ = pmm3d.z_;
+  // x_ = pmm3d.x_;
+  // y_ = pmm3d.y_;
+  // z_ = pmm3d.z_;
 
-  min_axis_trajectory_duration_ = pmm3d.min_axis_trajectory_duration_;
+  // min_axis_trajectory_duration_ = pmm3d.min_axis_trajectory_duration_;
 }
 
 /*
@@ -428,6 +471,8 @@ PointMassTrajectory3D::PointMassTrajectory3D(const QuadState &from,
   min_axis_trajectory_duration_[0] = x_.time();
   min_axis_trajectory_duration_[1] = y_.time();
   min_axis_trajectory_duration_[2] = z_.time();
+
+  // std::cout << "min_axis_trajectory_duration_ " << min_axis_trajectory_duration_.transpose() << std::endl;
 
   if (equalize_time && x_.exists_ && y_.exists_ && z_.exists_) {
     // compute sync trajectories according to bang-bang or bang-singular-bang approach

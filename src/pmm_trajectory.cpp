@@ -153,20 +153,27 @@ PMMTrajectory::PMMTrajectory(const Scalar ps, const Scalar vs, const Scalar pe,
       }
     }
 
+    if ((vs == ve) and (((a1 - a2)*(a1*ve*ve - a2*ve*ve - 2*a1*a2*pe + 2*a1*a2*ps)) < -PRECISION_DTDV_DEF)){
+      // std::cout << "ERROR: PMM equations solution does not exist" << ((a1 - a2)*(a1*ve*ve - a2*ve*ve - 2*a1*a2*pe + 2*a1*a2*ps)) << std::endl;
+      continue;
+    } else if ((vs != ve) and (((-a1 + a2)*(-a1*ve*ve + a2*vs*vs + 2*a1*a2*pe - 2*a1*a2*ps)) < -PRECISION_DTDV_DEF)){  
+      // std::cout << "ERROR: PMM equations solution does not exist, discriminant: " << ((-a1 + a2)*(-a1*ve*ve + a2*vs*vs + 2*a1*a2*pe - 2*a1*a2*ps)) << std::endl;
+      continue;
+    } 
 
-    // if ((vs == ve) and (((a1 - a2)*(a1*ve*ve - a2*ve*ve - 2*a1*a2*pe + 2*a1*a2*ps)) < PRECISION_DTDV_DEF)){
-    //   // std::cout << "ERROR: PMM equations solution does not exist" << ((a1 - a2)*(a1*ve*ve - a2*ve*ve - 2*a1*a2*pe + 2*a1*a2*ps)) << std::endl;
-    //   continue;
-    // } else if ((vs != ve) and (((-a1 + a2)*(-a1*ve*ve + a2*vs*vs + 2*a1*a2*pe - 2*a1*a2*ps)) < PRECISION_DTDV_DEF)){  
-    //   // std::cout << "ERROR: PMM equations solution does not exist, discriminant: " << ((-a1 + a2)*(-a1*ve*ve + a2*vs*vs + 2*a1*a2*pe - 2*a1*a2*ps)) << std::endl;
-    //   continue;
-    // } 
-
-
-    const Scalar tst1 = sqrt(
-      (-a1 + a2) * (2 * a1 * a2 * (pe - ps) - a1 * pow_ve2 + a2 * pow_vs2));
-    const Scalar tst2 = sqrt(
-      (a1 - a2) * (a1 * (-2 * a2 * pe + 2 * a2 * ps + pow_ve2) - a2 * pow_vs2));  
+    Scalar tst1, tst2;
+    if (fabs((-a1 + a2) * (2 * a1 * a2 * (pe - ps) - a1 * pow_ve2 + a2 * pow_vs2)) < PRECISION_DTDV_DEF) {
+      tst1 = 0;
+    } else {
+      tst1 = sqrt(
+        (-a1 + a2) * (2 * a1 * a2 * (pe - ps) - a1 * pow_ve2 + a2 * pow_vs2));
+    }
+    if ((a1 - a2) * (a1 * (-2 * a2 * pe + 2 * a2 * ps + pow_ve2) - a2 * pow_vs2) < PRECISION_DTDV_DEF) {
+      tst2 = 0;
+    } else {
+      tst2 = sqrt(
+        (a1 - a2) * (a1 * (-2 * a2 * pe + 2 * a2 * ps + pow_ve2) - a2 * pow_vs2));  
+    }
       
     // case 1
     const Scalar t1_1 = (-(a1 * vs) + a2 * vs + tst1) / (a1 * (a1 - a2));
@@ -398,7 +405,7 @@ Scalar PMMTrajectory::computeSyncTrajectory(const Scalar total_time, const Scala
 
     } else {
       const Scalar sigma_1 = a1*a2*sqrt(((a1 - a2)*(a1*pow(pe,2) - a2*pow(pe,2) + a1*pow(ps,2) - a2*pow(ps,2) + a1*pow(total_time,2)*pow(ve,2) - a2*pow(total_time,2)*pow(vs,2) - 2*a1*pe*ps + 2*a2*pe*ps - 2*a1*pe*total_time*ve + 2*a1*ps*total_time*ve + 2*a2*pe*total_time*vs - 2*a2*ps*total_time*vs))/(pow(a1,2)*pow(a2,2)));
-              
+
       t1_1 = -(a1*pe - a2*pe - a1*ps + a2*ps + sigma_1 - a1*total_time*ve + a2*total_time*ve)/((a1 - a2)*(ve - vs));
       t1_2 = (a2*pe - a1*pe + a1*ps - a2*ps + sigma_1 + a1*total_time*ve - a2*total_time*ve)/((a1 - a2)*(ve - vs));
 
@@ -409,8 +416,11 @@ Scalar PMMTrajectory::computeSyncTrajectory(const Scalar total_time, const Scala
       sc_2 = -(a1*pe - a2*pe - a1*ps + a2*ps + sigma_1 - a1*total_time*ve + a2*total_time*vs)/(a1*a2*pow(total_time,2));
     }
 
+    // std::cout << "sync " << t1_1 << " " << t2_1 << " " << sc_1 << std::endl;
+    // std::cout << "sync " << t1_2 << " " << t2_2 << " " << sc_2 << std::endl;
+
     if (std::isfinite(t1_1) and std::isfinite(t2_1) and std::isfinite(sc_1) and sc_1 > 0 and
-            sc_1 <= (1+PRECISION_PMM_VALUES) and t1_1 > -PRECISION_PMM_VALUES and t2_1 > -PRECISION_PMM_VALUES and
+            /*sc_1 <= (1+PRECISION_PMM_VALUES) and*/ t1_1 > -PRECISION_PMM_VALUES and t2_1 > -PRECISION_PMM_VALUES and
             vs + sc_1*a1 * t1_1 <= v_max and vs + sc_1*a1 * t1_1 >= v_min) {
       // clip time values
       Scalar t1 = std::max(0.0, t1_1);
@@ -434,7 +444,7 @@ Scalar PMMTrajectory::computeSyncTrajectory(const Scalar total_time, const Scala
     }
 
     if (std::isfinite(t1_2) and std::isfinite(t2_2) and std::isfinite(sc_2) and sc_2 > 0 and
-            sc_2 <= (1+PRECISION_PMM_VALUES) and t1_2 > -PRECISION_PMM_VALUES and t2_2 > -PRECISION_PMM_VALUES and 
+            /*sc_2 <= (1+PRECISION_PMM_VALUES) and*/ t1_2 > -PRECISION_PMM_VALUES and t2_2 > -PRECISION_PMM_VALUES and 
             vs + sc_2*a1 * t1_2 <= v_max and vs + sc_2*a1 * t1_2 >= v_min) {
       // clip time values
       Scalar t1 = std::max(0.0, t1_2);
@@ -517,11 +527,23 @@ Scalar PMMTrajectory::computeSyncTrajectory(const Scalar total_time, const Scala
         return feasible_sync_time;      
 
     }
-    Scalar sigma_1 = sqrt(-(a12*pow(vs,2) - a11*pow(ve,2) - 2*a11*a12*ps + 2*a11*a12*pe)/(a11 - a12));
+
+    Scalar sigma_1;
+    if (-(a12*pow(vs,2) - a11*pow(ve,2) - 2*a11*a12*ps + 2*a11*a12*pe)/(a11 - a12) < -PRECISION_PMM_VALUES) {
+      continue;
+    } else if (fabs(-(a12*pow(vs,2) - a11*pow(ve,2) - 2*a11*a12*ps + 2*a11*a12*pe)/(a11 - a12)) < PRECISION_PMM_VALUES) {
+      sigma_1 = 0;
+    } else {
+      sigma_1 = sqrt(-(a12*pow(vs,2) - a11*pow(ve,2) - 2*a11*a12*ps + 2*a11*a12*pe)/(a11 - a12));
+    }
+
     Scalar t1_1 = -(vs + sigma_1)/a11;
     Scalar t2_1 = (ve + sigma_1)/a12;
     Scalar t1_2 = - (vs - sigma_1)/a11;
     Scalar t2_2 = (ve - sigma_1)/a12;
+
+    // std::cout << t1_1 << " " << t2_1 << std::endl;
+    // std::cout << t1_2 << " " << t2_2 << std::endl;
 
     if (std::isfinite(t1_1) and std::isfinite(t2_1) and vs + a11 * t1_1 <= v_max and vs + a11 * t1_1 >= v_min and
     t1_1 > -PRECISION_PMM_VALUES and t2_1 > -PRECISION_PMM_VALUES and (t1_1 + t2_1) >= total_time) {

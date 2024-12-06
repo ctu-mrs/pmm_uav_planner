@@ -11,10 +11,10 @@
 #include <cmath>
 #include "common.hpp"
 
-#define PRECISION_PMM_VALUES (1.0e-4)
-#define PRECISION_DTDV_DEF (1e-8)
+#define PRECISION_PMM_VALUES (1.0e-8)
+#define PRECISION_DTDV_DEF (1e-4)
 #define PRECISION_TRANS3D (1E-4)
-#define MIN_ACC_REQ (0.01)
+#define MIN_ACC_REQ (1.0)
 #define INITIAL_MIN_ACC (0.5)
 
 namespace pmm {
