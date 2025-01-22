@@ -80,8 +80,8 @@ PointMassTrajectory3D::PointMassTrajectory3D(const QuadState &from, const QuadSt
   }
 
   int iter = 0;
-  while (fabs(largest_thrust - max_acc_norm) > precision_acc_limit and
-         iter < max_iter) {
+  while ((fabs(largest_thrust - max_acc_norm) > precision_acc_limit or
+         largest_thrust >= max_acc_norm) and iter < max_iter) {
     iter++;
     // B = T + GVEC , |T|=max_acc_norm, |B-GVEC|^2 = |T|^2
     // scale the T parts by same factor k ->
@@ -162,7 +162,7 @@ PointMassTrajectory3D::PointMassTrajectory3D(const QuadState &from, const QuadSt
     //   biggest_acc[2] += std::copysign(max_acc_norm*0.01, biggest_acc[2]);
     // }
 
-    if (pmm3d.time() < duration && largest_thrust <= max_acc_norm + PRECISION_PMM_VALUES && pmm3d.exists()) {
+    if (pmm3d.time() < duration && largest_thrust <= max_acc_norm && pmm3d.exists()) {
       x_ = pmm3d.x_;
       y_ = pmm3d.y_;
       z_ = pmm3d.z_;

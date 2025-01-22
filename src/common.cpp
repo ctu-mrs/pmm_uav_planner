@@ -45,4 +45,24 @@ void operator>>(const YAML::Node& node, Vector<3>& value) {
     value[2] = tmp[2];
 }
 
+void redistribute(Eigen::Vector3d& vec) {
+    // Calculate the norm of the vector
+    double original_norm = vec.norm();
+
+    // Calculate the average of the absolute values of the components
+    double avg = (std::abs(vec[0]) + std::abs(vec[1]) + std::abs(vec[2])) / 3.0;
+
+    // Adjust the components based on their relationship to the average
+    for (int i = 0; i < 3; ++i) {
+        if (std::abs(vec[i]) > avg) {
+            vec[i] -= std::copysign(0.1*original_norm, vec[i]); // Decrease larger values
+        } else {
+            vec[i] += std::copysign(0.1*original_norm, vec[i]); // Increase smaller values
+        }
+    }
+
+    // Normalize the vector to preserve its original norm
+    vec = vec.normalized() * original_norm;
+}
+
 } // namespace pmm

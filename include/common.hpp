@@ -65,6 +65,8 @@ void operator>>(const YAML::Node& node, Scalar& value);
 void operator>>(const YAML::Node& node, Vector<3>& value);
 void operator>>(const YAML::Node& node, std::string& value);
 
+void redistribute(Eigen::Vector3d& vec);
+
 template<typename DataType>
 bool parseArrayParam(const YAML::Node& config, std::string param,
                      std::vector<DataType>& array) {
