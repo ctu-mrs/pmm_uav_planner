@@ -1877,7 +1877,8 @@ namespace pmm {
                 for (int ax=0;ax<3;ax++){
                     Scalar v_1 = sqrt(2*a_max*hv_1[ax]);
                     Scalar v_2 = sqrt(2*a_max*hv_2[ax]);
-                    v_tmp[ax] = std::min(v_1, v_2);
+                    // v_tmp[ax] = std::min(v_1, v_2);
+                    v_tmp[ax] = (v_1 + v_2) / 2;
                 }
 
                 // utilize prior knowledge about the sharpness of the angle
