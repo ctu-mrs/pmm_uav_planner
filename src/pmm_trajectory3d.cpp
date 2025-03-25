@@ -47,6 +47,11 @@ PointMassTrajectory3D::PointMassTrajectory3D(const QuadState &from, const QuadSt
   Vector<3> min_per_axis_acc_vec = -per_axis_acc_vec + 2*GVEC;
   Vector<3> max_per_axis_vel_vec = Vector<3>::Constant(max_vel_norm / sqrt(3));
 
+  if (debug) {
+    std::cout << "max_per_axis_acc_vec: " << max_per_axis_acc_vec[0] << "," << max_per_axis_acc_vec[1] << ","<< max_per_axis_acc_vec[2] << std::endl;
+    std::cout << "min_per_axis_acc_vec: " << min_per_axis_acc_vec[0] << "," << min_per_axis_acc_vec[1] << ","<< min_per_axis_acc_vec[2] << std::endl;
+  }
+
   Vector<3> endpoint_velocity = from.v.cwiseAbs().cwiseMax(to.v.cwiseAbs());
   // if (abs(endpoint_velocity.maxCoeff()) > max_vel_norm / sqrt(3)) {
   //   std::cout << "WARNING: start or end velocity in one of the axis is greater than maximum velocity / sqrt(3)!" << std::endl;
@@ -62,6 +67,14 @@ PointMassTrajectory3D::PointMassTrajectory3D(const QuadState &from, const QuadSt
   Vector<3> end_acc = pmm3d.end_acc();
   Scalar start_thrust = (start_acc - GVEC).norm();
   Scalar end_thrust = (end_acc - GVEC).norm();
+
+  if (debug) {
+    std::cout << "Iter" << -1 << std::endl;
+    std::cout << "Start thrust: " << start_thrust << std::endl;
+    std::cout <<  "Start body acc: " << start_acc[0] << "," << start_acc[1] << ","<< start_acc[2] << std::endl;
+    std::cout << "End thrust: " << end_thrust << std::endl;
+    std::cout <<  "End body acc: " << end_acc[0] << "," << end_acc[1] << ","<< end_acc[2] << std::endl;
+  }
 
   Vector<3> biggest_acc = start_thrust > end_thrust ? start_acc : end_acc;
   Scalar largest_thrust = std::max(start_thrust, end_thrust);

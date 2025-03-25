@@ -420,7 +420,7 @@ Scalar PMMTrajectory::computeSyncTrajectory(const Scalar total_time, const Scala
     // std::cout << "sync " << t1_2 << " " << t2_2 << " " << sc_2 << std::endl;
 
     if (std::isfinite(t1_1) and std::isfinite(t2_1) and std::isfinite(sc_1) and sc_1 > 0 and
-            /*sc_1 <= (1+PRECISION_PMM_VALUES) and*/ t1_1 > -PRECISION_PMM_VALUES and t2_1 > -PRECISION_PMM_VALUES and
+            sc_1 <= (1+PRECISION_PMM_VALUES) and t1_1 > -PRECISION_PMM_VALUES and t2_1 > -PRECISION_PMM_VALUES and
             vs + sc_1*a1 * t1_1 <= v_max and vs + sc_1*a1 * t1_1 >= v_min) {
       // clip time values
       Scalar t1 = std::max(0.0, t1_1);
@@ -444,7 +444,7 @@ Scalar PMMTrajectory::computeSyncTrajectory(const Scalar total_time, const Scala
     }
 
     if (std::isfinite(t1_2) and std::isfinite(t2_2) and std::isfinite(sc_2) and sc_2 > 0 and
-            /*sc_2 <= (1+PRECISION_PMM_VALUES) and*/ t1_2 > -PRECISION_PMM_VALUES and t2_2 > -PRECISION_PMM_VALUES and 
+            sc_2 <= (1+PRECISION_PMM_VALUES) and t1_2 > -PRECISION_PMM_VALUES and t2_2 > -PRECISION_PMM_VALUES and 
             vs + sc_2*a1 * t1_2 <= v_max and vs + sc_2*a1 * t1_2 >= v_min) {
       // clip time values
       Scalar t1 = std::max(0.0, t1_2);
