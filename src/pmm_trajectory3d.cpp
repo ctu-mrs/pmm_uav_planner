@@ -426,13 +426,13 @@ PointMassTrajectory3D::PointMassTrajectory3D(const QuadState &from, const QuadSt
       std::cout << "Drag4: " << drag4.transpose() << " = " << drag4.norm() <<  std::endl;
     }
 
-    if ((pmm3d.x_.t_(0) < PRECISION_PMM_VALUES || pmm3d.y_.t_(0) < PRECISION_PMM_VALUES || pmm3d.z_.t_(0) < PRECISION_PMM_VALUES) && 
-        (pmm3d.x_.t_(2) < PRECISION_PMM_VALUES || pmm3d.y_.t_(2) < PRECISION_PMM_VALUES || pmm3d.z_.t_(2) < PRECISION_PMM_VALUES)) {
-      if (debug) {
-        std::cout << "ENDING EARLY: acceleration scaling makes no difference!" << std::endl;
-      }
-      break;
-    }
+    // if ((pmm3d.x_.t_(0) < PRECISION_PMM_VALUES || pmm3d.y_.t_(0) < PRECISION_PMM_VALUES || pmm3d.z_.t_(0) < PRECISION_PMM_VALUES) && 
+    //     (pmm3d.x_.t_(2) < PRECISION_PMM_VALUES || pmm3d.y_.t_(2) < PRECISION_PMM_VALUES || pmm3d.z_.t_(2) < PRECISION_PMM_VALUES)) {
+    //   if (debug) {
+    //     std::cout << "ENDING EARLY: acceleration scaling makes no difference!" << std::endl;
+    //   }
+    //   break;
+    // }
 
     if (pmm3d.time() < duration && biggest_thrust <= max_acc_norm + PRECISION_PMM_VALUES && pmm3d.exists()) {
       x_ = pmm3d.x_;
